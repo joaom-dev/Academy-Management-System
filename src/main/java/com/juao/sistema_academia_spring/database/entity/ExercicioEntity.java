@@ -19,6 +19,9 @@ public class ExercicioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
+    private String nome;
+
     @Column(name = "grupo_muscular", nullable = false)
     private String grupoMuscular;
 
