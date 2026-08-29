@@ -34,4 +34,16 @@ public class AvaliacaoFisicaController {
     public void postAvaliacaoFisica(@Valid @RequestBody AvaliacaoFisicaDto avaliacaoFisicaDto) throws NotFoundException, BadRequestException {
         avaliacaoFisicaService.postAvaliacaoFisica(avaliacaoFisicaDto);
     }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAvaliacaoFisica(@PathVariable Integer id) {
+        avaliacaoFisicaService.deleteAvaliacaoFisica(id);
+    }
+
+    @PutMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public AvaliacaoFisicaEntity putAvaliacaoFisica(@PathVariable Integer id, @RequestBody AvaliacaoFisicaDto avaliacaoFisicaDto) throws NotFoundException {
+        return  avaliacaoFisicaService.putAvaliacaoFisica(avaliacaoFisicaDto, id);
+    }
 }

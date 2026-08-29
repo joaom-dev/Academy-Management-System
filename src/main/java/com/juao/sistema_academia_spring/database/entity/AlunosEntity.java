@@ -1,6 +1,7 @@
 package com.juao.sistema_academia_spring.database.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.HashSet;
@@ -21,7 +22,7 @@ public class AlunosEntity {
     private Integer id;
 
     @Column
-    private String nome;
+    private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -33,4 +34,6 @@ public class AlunosEntity {
     @OneToMany(mappedBy = "alunos")
     private Set<TreinosEntity> treinos = new HashSet<>();
 
+    public void setNm(@NotNull String name) {
+    }
 }

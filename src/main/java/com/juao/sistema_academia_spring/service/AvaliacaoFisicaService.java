@@ -4,6 +4,7 @@ import com.juao.sistema_academia_spring.database.entity.AlunosEntity;
 import com.juao.sistema_academia_spring.database.entity.AvaliacaoFisicaEntity;
 import com.juao.sistema_academia_spring.database.repository.IAlunosRepository;
 import com.juao.sistema_academia_spring.database.repository.IAvaliacaoFisicaRepository;
+import com.juao.sistema_academia_spring.dto.AlunoDto;
 import com.juao.sistema_academia_spring.dto.AvaliacaoFisicaDto;
 import com.juao.sistema_academia_spring.exception.BadRequestException;
 import com.juao.sistema_academia_spring.exception.NotFoundException;
@@ -40,5 +41,22 @@ public class AvaliacaoFisicaService {
 
         aluno.setAvaliacaoFisicaEntity(avaliacaoFisica);
         alunosRepository.save(aluno);
+    }
+
+    public void deleteAvaliacaoFisica(Integer id) {
+        if (!avaliacaoFisicaRepository.existsById(id)) {
+            throw new RuntimeException("Avaliação fisica com o id: " + id + " nao encontrado no banco de dados");
+        }
+        avaliacaoFisicaRepository.deleteById(id);
+    }
+
+    public AvaliacaoFisicaEntity putAvaliacaoFisica(AvaliacaoFisicaDto avaliacaoFisicaDto, Integer id) throws NotFoundException {
+        AvaliacaoFisicaEntity putAvaliacaoFisica = avaliacaoFisicaRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Exercicio nao econtrado pelo id: "+id));
+        putAvaliacaoFisica.setPeso(avaliacaoFisicaDto.getPeso());
+        putAvaliacaoFisica.setAltura(avaliacaoFisicaDto.getAltura());
+        putAvaliacaoFisica.setGordura(avaliacaoFisicaDto.getPorcentagemGordura());
+
+        return avaliacaoFisicaRepository.save(putAvaliacaoFisica);
     }
 }
