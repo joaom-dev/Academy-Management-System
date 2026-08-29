@@ -1,6 +1,7 @@
 package com.juao.sistema_academia_spring.database.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.HashSet;
@@ -20,7 +21,7 @@ public class TreinosEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "exercicio_nome", nullable = false)
+    @Column(name = "treino_nome", nullable = false)
     private String nome;
 
     @ManyToOne
@@ -33,5 +34,8 @@ public class TreinosEntity {
             joinColumns = @JoinColumn(name = "treino_id"),
             inverseJoinColumns = @JoinColumn(name = "exercicio_id")
     )
+
     private Set<ExercicioEntity> exercicios = new HashSet<>();
+
 }
+
