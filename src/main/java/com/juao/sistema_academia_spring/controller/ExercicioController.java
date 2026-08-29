@@ -1,6 +1,8 @@
 package com.juao.sistema_academia_spring.controller;
 
+import com.juao.sistema_academia_spring.database.entity.AlunosEntity;
 import com.juao.sistema_academia_spring.database.entity.ExercicioEntity;
+import com.juao.sistema_academia_spring.dto.AlunoDto;
 import com.juao.sistema_academia_spring.dto.ExercicioDto;
 import com.juao.sistema_academia_spring.exception.NotFoundException;
 
@@ -43,5 +45,11 @@ public class ExercicioController {
     @ResponseStatus(HttpStatus.OK)
     public ExercicioEntity putExercicio(@PathVariable Integer id, @RequestBody ExercicioDto exercicioDto) throws NotFoundException {
         return  exercicioService.putExercicio(exercicioDto, id);
+    }
+
+    @PatchMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ExercicioEntity patchExercicio(@PathVariable Integer id, @RequestBody ExercicioDto exercicioDto) throws NotFoundException {
+        return exercicioService.patchExercicio(exercicioDto, id);
     }
 }

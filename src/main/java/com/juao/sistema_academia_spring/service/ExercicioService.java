@@ -1,7 +1,9 @@
 package com.juao.sistema_academia_spring.service;
 
+import com.juao.sistema_academia_spring.database.entity.AlunosEntity;
 import com.juao.sistema_academia_spring.database.entity.ExercicioEntity;
 import com.juao.sistema_academia_spring.database.repository.IExercicioRepository;
+import com.juao.sistema_academia_spring.dto.AlunoDto;
 import com.juao.sistema_academia_spring.dto.ExercicioDto;
 //import com.juao.sistema_academia_spring.exception.NotFoundException;
 import com.juao.sistema_academia_spring.exception.NotFoundException;
@@ -44,5 +46,19 @@ public class ExercicioService {
         putExercicio.setGrupoMuscular(exercicioDto.getGrupoMuscular());
 
         return exercicioRepository.save(putExercicio);
+    }
+
+    public ExercicioEntity patchExercicio(ExercicioDto exercicioDto, Integer id) throws NotFoundException {
+        ExercicioEntity patchExercicio = exercicioRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Exercicio nao encontrado pelo id: " + id));
+
+        if (exercicioDto.getNome() != null) {
+            patchExercicio.setNome(exercicioDto.getNome());
+        }
+        if (exercicioDto.getGrupoMuscular() != null) {
+            patchExercicio.setGrupoMuscular(exercicioDto.getGrupoMuscular());
+        }
+
+        return exercicioRepository.save(patchExercicio);
     }
 }

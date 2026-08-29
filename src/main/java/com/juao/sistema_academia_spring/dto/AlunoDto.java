@@ -14,5 +14,8 @@ public class AlunoDto {
 
     @NotNull
     private String name;
-    @NotNull String email;
+    @NotNull
+    private String email;
+    @NotNull
+    private String genero;
 }

@@ -52,11 +52,28 @@ public class AvaliacaoFisicaService {
 
     public AvaliacaoFisicaEntity putAvaliacaoFisica(AvaliacaoFisicaDto avaliacaoFisicaDto, Integer id) throws NotFoundException {
         AvaliacaoFisicaEntity putAvaliacaoFisica = avaliacaoFisicaRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Exercicio nao econtrado pelo id: "+id));
+                .orElseThrow(()-> new NotFoundException("Avaliacao Fisica nao econtrado pelo id: "+id));
         putAvaliacaoFisica.setPeso(avaliacaoFisicaDto.getPeso());
         putAvaliacaoFisica.setAltura(avaliacaoFisicaDto.getAltura());
         putAvaliacaoFisica.setGordura(avaliacaoFisicaDto.getPorcentagemGordura());
 
         return avaliacaoFisicaRepository.save(putAvaliacaoFisica);
+    }
+
+    public AvaliacaoFisicaEntity patchAvaliacaoFisica(AvaliacaoFisicaDto avaliacaoFisicaDto, Integer id) throws NotFoundException {
+        AvaliacaoFisicaEntity patchAvaliacaoFisica = avaliacaoFisicaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Avaliacao Fisica nao encontrado pelo id: " + id));
+
+        if (avaliacaoFisicaDto.getAltura() != null) {
+            patchAvaliacaoFisica.setAltura(avaliacaoFisicaDto.getAltura());
+        }
+        if (avaliacaoFisicaDto.getPeso() != null) {
+            patchAvaliacaoFisica.setPeso(avaliacaoFisicaDto.getPeso());
+        }
+        if (avaliacaoFisicaDto.getPorcentagemGordura() != null) {
+            patchAvaliacaoFisica.setGordura(avaliacaoFisicaDto.getPorcentagemGordura());
+        }
+
+        return avaliacaoFisicaRepository.save(patchAvaliacaoFisica);
     }
 }

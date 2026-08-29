@@ -33,6 +33,7 @@ public class AlunoService {
         alunosRepository.save(AlunosEntity.builder()
                         .name(alunoDto.getName())
                         .email(alunoDto.getEmail())
+                        .genero(alunoDto.getGenero())
                 .build());
     }
 
@@ -45,10 +46,28 @@ public class AlunoService {
 
     public AlunosEntity putAluno(AlunoDto alunoDto, Integer id) throws NotFoundException {
         AlunosEntity putAluno = alunosRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Exercicio nao econtrado pelo id: "+id));
+                .orElseThrow(()-> new NotFoundException("Aluno nao econtrado pelo id: "+id));
         putAluno.setName(alunoDto.getName());
         putAluno.setEmail(alunoDto.getEmail());
+        putAluno.setGenero(alunoDto.getGenero());
 
         return alunosRepository.save(putAluno);
+    }
+
+    public AlunosEntity patchAluno(AlunoDto alunoDto, Integer id) throws NotFoundException {
+        AlunosEntity patchAluno = alunosRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Aluno nao encontrado pelo id: " + id));
+
+        if (alunoDto.getName() != null) {
+            patchAluno.setName(alunoDto.getName());
+        }
+        if (alunoDto.getEmail() != null) {
+            patchAluno.setEmail(alunoDto.getEmail());
+        }
+        if (alunoDto.getGenero() != null) {
+            patchAluno.setGenero(alunoDto.getGenero());
+        }
+
+        return alunosRepository.save(patchAluno);
     }
 }

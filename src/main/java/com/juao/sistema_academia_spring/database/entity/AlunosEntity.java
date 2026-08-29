@@ -21,11 +21,14 @@ public class AlunosEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String genero;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "aluno_avaliacao")

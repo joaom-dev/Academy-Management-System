@@ -1,7 +1,9 @@
 package com.juao.sistema_academia_spring.controller;
 
+import com.juao.sistema_academia_spring.database.entity.AlunosEntity;
 import com.juao.sistema_academia_spring.database.entity.AvaliacaoFisicaEntity;
 import com.juao.sistema_academia_spring.database.entity.ExercicioEntity;
+import com.juao.sistema_academia_spring.dto.AlunoDto;
 import com.juao.sistema_academia_spring.dto.AvaliacaoFisicaDto;
 import com.juao.sistema_academia_spring.exception.BadRequestException;
 import com.juao.sistema_academia_spring.exception.NotFoundException;
@@ -45,5 +47,11 @@ public class AvaliacaoFisicaController {
     @ResponseStatus(HttpStatus.OK)
     public AvaliacaoFisicaEntity putAvaliacaoFisica(@PathVariable Integer id, @RequestBody AvaliacaoFisicaDto avaliacaoFisicaDto) throws NotFoundException {
         return  avaliacaoFisicaService.putAvaliacaoFisica(avaliacaoFisicaDto, id);
+    }
+
+    @PatchMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public AvaliacaoFisicaEntity patchAvaliacaoFisica(@PathVariable Integer id, @RequestBody AvaliacaoFisicaDto avaliacaoFisicaDto) throws NotFoundException {
+        return avaliacaoFisicaService.patchAvaliacaoFisica(avaliacaoFisicaDto, id);
     }
 }
