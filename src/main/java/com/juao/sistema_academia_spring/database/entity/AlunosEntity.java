@@ -26,7 +26,7 @@ public class AlunosEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "aluno_avaliacao")
     private AvaliacaoFisicaEntity avaliacaoFisicaEntity;
 

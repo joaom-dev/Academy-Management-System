@@ -2,6 +2,8 @@ package com.juao.sistema_academia_spring.controller;
 
 import com.juao.sistema_academia_spring.database.entity.ExercicioEntity;
 import com.juao.sistema_academia_spring.dto.ExercicioDto;
+import com.juao.sistema_academia_spring.exception.NotFoundException;
+
 import com.juao.sistema_academia_spring.service.ExercicioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,7 @@ public class ExercicioController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void postExercicio(@Valid @RequestBody ExercicioDto ExercicioDto) {
-        exercicioService.criarExercicio(ExercicioDto);
+        exercicioService.postExercicio(ExercicioDto);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -39,7 +41,7 @@ public class ExercicioController {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ExercicioEntity putExercicio(@PathVariable Integer id, @RequestBody ExercicioDto exercicioDto) {
+    public ExercicioEntity putExercicio(@PathVariable Integer id, @RequestBody ExercicioDto exercicioDto) throws NotFoundException {
         return  exercicioService.putExercicio(exercicioDto, id);
     }
 }

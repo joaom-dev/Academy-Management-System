@@ -3,6 +3,8 @@ package com.juao.sistema_academia_spring.service;
 import com.juao.sistema_academia_spring.database.entity.ExercicioEntity;
 import com.juao.sistema_academia_spring.database.repository.IExercicioRepository;
 import com.juao.sistema_academia_spring.dto.ExercicioDto;
+//import com.juao.sistema_academia_spring.exception.NotFoundException;
+import com.juao.sistema_academia_spring.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +21,13 @@ public class ExercicioService {
         return exercicioRepository.findAll();
     }
 
-    public void criarExercicio(ExercicioDto ExercicioDto) {
-        ExercicioEntity criarExercicio = ExercicioEntity.builder()
+    public void postExercicio(ExercicioDto ExercicioDto) {
+        ExercicioEntity postExercicio = ExercicioEntity.builder()
                         .nome(ExercicioDto.getNome())
                         .grupoMuscular(ExercicioDto.getGrupoMuscular())
                 .build();
 
-        exercicioRepository.save(criarExercicio);
+        exercicioRepository.save(postExercicio);
     }
 
     public void deleteExercicio(Integer id) {
@@ -35,9 +37,9 @@ public class ExercicioService {
         exercicioRepository.deleteById(id);
     }
 
-    public ExercicioEntity putExercicio(ExercicioDto exercicioDto, Integer id) {
+    public ExercicioEntity putExercicio(ExercicioDto exercicioDto, Integer id) throws NotFoundException {
         ExercicioEntity putExercicio = exercicioRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Exercicio nao econtrado pelo id "+id));
+                .orElseThrow(()-> new NotFoundException("Exercicio nao econtrado pelo id: "+id));
         putExercicio.setNome(exercicioDto.getNome());
         putExercicio.setGrupoMuscular(exercicioDto.getGrupoMuscular());
 
