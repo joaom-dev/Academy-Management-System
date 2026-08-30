@@ -35,7 +35,7 @@ public class AlunoController {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAlunos(@PathVariable Integer id) {
+    public void deleteAlunos(@PathVariable Integer id) throws NotFoundException {
         alunosService.deleteAluno(id);
     }
 

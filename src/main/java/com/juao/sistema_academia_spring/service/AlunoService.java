@@ -3,13 +3,17 @@ package com.juao.sistema_academia_spring.service;
 import com.juao.sistema_academia_spring.database.entity.AlunosEntity;
 import com.juao.sistema_academia_spring.database.entity.AvaliacaoFisicaEntity;
 import com.juao.sistema_academia_spring.database.entity.ExercicioEntity;
+import com.juao.sistema_academia_spring.database.entity.TreinosEntity;
 import com.juao.sistema_academia_spring.database.repository.IAlunosRepository;
+import com.juao.sistema_academia_spring.database.repository.IAvaliacaoFisicaRepository;
+import com.juao.sistema_academia_spring.database.repository.ITreinosRepository;
 import com.juao.sistema_academia_spring.dto.AlunoDto;
 import com.juao.sistema_academia_spring.dto.ExercicioDto;
 import com.juao.sistema_academia_spring.exception.BadRequestException;
 import com.juao.sistema_academia_spring.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +22,8 @@ import java.util.List;
 public class AlunoService {
 
     private final IAlunosRepository alunosRepository;
+    private final IAvaliacaoFisicaRepository avaliacaoFisicaRepository;
+    private final ITreinosRepository treinosRepository;
 
     public List<AlunosEntity> findAll() {
         return alunosRepository.findAll();
@@ -37,10 +43,19 @@ public class AlunoService {
                 .build());
     }
 
-    public void deleteAluno(Integer id) {
-        if (!alunosRepository.existsById(id)) {
-            throw new RuntimeException("Aluno com o id " + id + " nao encontrado no banco de dados");
-        }
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteAluno(Integer id) throws NotFoundException {
+        AlunosEntity deleteAluno = alunosRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Aluno nao econtrado pelo id: "+id));
+
+        List<Integer> treinosAlunosIds = deleteAluno.getTreinos().stream()
+                .map(TreinosEntity::getId)
+                .toList();
+
+        treinosRepository.deleteAllById(treinosAlunosIds);
+
+        avaliacaoFisicaRepository.deleteById(deleteAluno.getAvaliacaoFisicaEntity().getId());
+
         alunosRepository.deleteById(id);
     }
 
